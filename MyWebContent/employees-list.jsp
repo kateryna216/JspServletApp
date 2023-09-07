@@ -6,6 +6,9 @@
 		<title>
 			Employee Tracker Application
 		</title>
+		
+		<link type="text/css" rel="stylesheet" href="css/style.css">
+		
 	</head>
 	
 	
