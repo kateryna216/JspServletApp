@@ -55,6 +55,19 @@
 					<% }%>
 				</table>
 			</div>
+			
+			<br /> <br />
+			
+			<!--  button Add Employee -->
+			<input type="button" value="Add New Employee" onclick="window.location.href='new-employee-form.jsp'; return false;" class="new-employee"/>
+			
+			
+				
+			
 		</div>
+		
+		
 	</body>
+	
+	
 </html>

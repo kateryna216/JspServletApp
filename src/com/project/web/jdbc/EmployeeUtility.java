@@ -1,12 +1,17 @@
 package com.project.web.jdbc;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.DataSource;
+
+
+//work with database JDBC
 
 public class EmployeeUtility {
 	
@@ -26,22 +31,22 @@ public class EmployeeUtility {
 		ResultSet result = null;
 		
 		try {
-		//get a connection
+		//get database connection
 		connection = src.getConnection();
 		
 		//create sql statement
-		String sqlQuery = "select * from employee order by last_name";
+		String sqlQuery = "select * from employee order by last_Name";
 		statement = connection.createStatement();
 		
-		//execute query
+		//execute query statement
 		result = statement.executeQuery(sqlQuery);
 		
 		//process the result set
 		while(result.next()) {
 			//get data from result set row
 			int employeeId = result.getInt("id"); //id is database's column name
-			String firstName = result.getString("first_name");
-			String lastName = result.getString("last_name");
+			String firstName = result.getString("first_Name");
+			String lastName = result.getString("last_Name");
 			String emailAddress = result.getString("email");
 			
 			//create new employee object
@@ -76,6 +81,38 @@ public class EmployeeUtility {
 		catch (Exception e){
 			e.printStackTrace();
 		}
+		
+	}
+
+	//add new employee, use JDBC
+	public void newEmployee(Employee employee) throws SQLException {
+		
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			
+			//get db connection
+			connection = src.getConnection();
+			
+			//create sql for insert
+			String sqlQuery = "insert into employee(first_Name, last_Name, email) values (?, ?, ?)";
+			statement= connection.prepareStatement(sqlQuery);
+			
+			//set the parameter values for employee
+			statement.setString(1, employee.getFirstName());
+			statement.setString(2, employee.getLastName());
+			statement.setString(3, employee.getEmailAddress());
+			
+			//execute sql insert
+			statement.execute();
+		}
+		finally {
+			//clean up JDBC object
+			close(null, connection, statement);
+		}
+		
+		
 		
 	}
 

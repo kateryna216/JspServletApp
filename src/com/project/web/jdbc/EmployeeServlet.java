@@ -40,8 +40,33 @@ public class EmployeeServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//list the employees (get data, set attributes, send into JSP)
+		
+		
+		
 		try {
+			//read toDo parameter
+			String command = request.getParameter("toDo");
+			
+			//default to list of employees
+			if(command == null) {
+				command="EMPLOYEE_LIST";
+			}
+			//choose needed method
+			switch(command) {
+			case "EMPLOYEE_LIST":
+				showEmployees(request,response);
+				break;
+				
+			case "AddNew":
+				newEmployee(request,response);
+				break;
+				
+			default:
+				showEmployees(request,response);
+			}
+			
+			
+			//show the list of the employees (get data, set attributes, send into JSP)
 			showEmployees(request, response);
 		}
 		catch (Exception e) {
@@ -50,16 +75,35 @@ public class EmployeeServlet extends HttpServlet {
 		
 	}
 
+	private void newEmployee(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		//read employee data
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String emailAddress = request.getParameter("emailAddress");
+		
+		//create new employee object
+		Employee employee = new Employee(firstName, lastName, emailAddress);
+		//add new employee to database
+		employeeUtility.newEmployee(employee);
+		
+		//send back list of employees
+		showEmployees(request, response);
+	}
+
 	private void showEmployees(HttpServletRequest request, HttpServletResponse response) throws Exception{
-		//get Employees from database utility
+		//get Employees from database employeeUtility
 		List<Employee> employees = employeeUtility.getListEmployees();
 		
 		//add employees to the request
 		request.setAttribute("EMPLOYEE_LIST", employees); 
 		
-		//send to JSP page using request dispatcher
+		//send to JSP page using get request dispatcher
 		RequestDispatcher disp = request.getRequestDispatcher("/employees-list.jsp");
-		disp.forward(request,  response);
+		
+		disp.forward(request, response);
+		
+		return;
+		
 		
 	}
 

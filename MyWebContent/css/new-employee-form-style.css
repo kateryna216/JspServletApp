@@ -1,0 +1,45 @@
+form {
+	margin-top: 20px;
+	background-color: #ececec;
+}
+
+
+label {
+	font-size: 20px; 
+	width: 200px; 
+	display: block; 
+	text-align: right;
+	margin-right: 0px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+input {
+	width: 250px;
+	border: 1px solid #142d4c; 
+	border-radius: 7px; 
+	padding: 4px; 
+	font-size: 16px;
+}
+
+.submit {
+	font-weight: bold;
+	width: 130px; 
+	padding: 5px 10px; 
+	margin-top: 30px;
+	background: #9fd3c7;
+}
+
+table {   
+	border-style:none;
+	width:40%;
+}
+
+tr:nth-child(even) {background: #ececec}
+tr:nth-child(odd) {background: #ececec}
+
+tr {
+	border-style:none;
+	text-align:left;	
+}
+	
