@@ -1,4 +1,5 @@
-<%@ page import="java.util.*, com.project.web.jdbc.*" %>
+
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,13 +11,6 @@
 		<link type="text/css" rel="stylesheet" href="css/style.css">
 		
 	</head>
-	
-	
-	<%
-		//get employees from request object (sent by servlet)
-		List<Employee> employees = (List<Employee>) request.getAttribute("EMPLOYEE_LIST");
-	%>
-	
 	
 	
 	<body>
@@ -38,21 +32,26 @@
 						<th>First Name</th>
 						<th>Last Name</th>
 						<th>Email Address</th>
+						<th>Operation</th>
 					</tr>
 					
 					<!-- fill Employees' names -->
-					<% for (Employee current : employees) { %>
+					<c:forEach var="currentEmployee" items="${EMPLOYEE_LIST}"> 
+					
+					<!-- link to remove employee -->
+						<c:url var="removeLink" value="EmployeeServlet">
+							<c:param name="toDo" value="REMOVE" />
+							<c:param name="employeeId" value="${currentEmployee.employeeId}" /> 
+						</c:url>
 					
 						<tr>
-							<td><%= current.getFirstName() %></td>
-								
-							<td><%= current.getLastName() %></td>
-							<td><%= current.getEmailAddress() %></td>
-						
+							<td> ${currentEmployee.firstName}</td>	
+							<td> ${currentEmployee.lastName}</td>
+							<td> ${currentEmployee.emailAddress}></td>
+							<td> <a href="${removeLink}" onclick="if (!(confirm('Remove the employee?'))) return false">Remove</a></td>
 						</tr>
 					
-					
-					<% }%>
+					</c:forEach>
 				</table>
 			</div>
 			

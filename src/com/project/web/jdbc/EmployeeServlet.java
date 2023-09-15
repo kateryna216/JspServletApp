@@ -61,6 +61,10 @@ public class EmployeeServlet extends HttpServlet {
 				newEmployee(request,response);
 				break;
 				
+			case "REMOVE":
+				removeEmployee(request, response);
+				break;
+				
 			default:
 				showEmployees(request,response);
 			}
@@ -73,6 +77,15 @@ public class EmployeeServlet extends HttpServlet {
 			throw new ServletException(e);
 		}
 		
+	}
+
+	private void removeEmployee(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		//read employee id from data
+		String employeeId = request.getParameter("employeeId");
+		//remove employee from db
+		employeeUtility.removeEmployee(employeeId);
+		//go back to main page
+		showEmployees(request, response);
 	}
 
 	private void newEmployee(HttpServletRequest request, HttpServletResponse response) throws Exception {

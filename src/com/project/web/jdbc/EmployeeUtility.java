@@ -116,4 +116,29 @@ public class EmployeeUtility {
 		
 	}
 
+	public void removeEmployee(String employeeId) throws Exception{
+		Connection connection = null;
+		PreparedStatement statement = null;
+		
+		try {
+			//convert employee id from string to integer
+			int employeeIdInt = Integer.parseInt(employeeId);
+			//get connection to db
+			connection = src.getConnection();
+			//create sql query to remove employee
+			String sqlQuery = "delete from employee where id=?";
+			//prepare statement
+			statement = connection.prepareStatement(sqlQuery);
+			//set parameters
+			statement.setInt(1, employeeIdInt);
+			//execure sql statement
+			statement.execute();
+			
+		}
+		finally {
+			close(null, connection, statement);
+		}
+		
+	}
+
 }
